@@ -456,6 +456,17 @@ func TestInvalidOptionAggregateWithRepeatedValues(t *testing.T) {
 	}
 }
 
+func TestOptionWithRepeatedMessageValues(t *testing.T) {
+	src := `message Foo {
+		int64 a = 1 [a = {repeated_message_field: [{hello: 1}, {hello: 2}]}];
+	}`
+	p := newParserOn(src)
+	_, err := p.Parse()
+	if err != nil {
+		t.Errorf("expected no error but got %v", err)
+	}
+}
+
 // issue #79
 func TestUseOfSemicolonsInAggregatedConstants(t *testing.T) {
 	src := `rpc Test(Void) returns (Void) {
